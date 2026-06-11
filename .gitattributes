@@ -1,5 +1,8 @@
-templates/* linguist-vendored
-static/* linguist-vendored
-*.html linguist-vendored
-*.css linguist-vendored
-*.js linguist-vendored
+# Do not count frontend/template files in GitHub language stats
+templates/** linguist-detectable=false
+static/** linguist-detectable=false
+
+# Do not count root-level frontend files either
+*.html linguist-detectable=false
+*.css linguist-detectable=false
+*.js linguist-detectable=false
