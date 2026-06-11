@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — Smart Library</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+</head>
+<body>
+{% from '_sidebar.html' import sidebar %}
+<div class="app-shell">
+  {{ sidebar('dashboard') }}
+
+  <div class="main-content">
+    <!-- Topbar -->
+    <header class="topbar">
+      <span class="topbar-title">Dashboard</span>
+      <div class="topbar-right">
+        <button class="theme-toggle" onclick="toggleTheme()">🌙 / ☀️</button>
+        <div class="user-badge">
+          <div class="user-avatar">A</div>
+          <span>Admin</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="page-body">
+      <!-- Flash -->
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}{% for cat, msg in messages %}
+          <div class="alert alert-{{ 'success' if cat == 'success' else 'error' }}">
+            {{ '✓' if cat == 'success' else '✕' }} {{ msg }}
+          </div>
+        {% endfor %}{% endif %}
+      {% endwith %}
+
+      <!-- Page header -->
+      <div class="page-header">
+        <h1>Welcome back, Admin 👋</h1>
+        <p>Here's what's happening in your library today.</p>
+      </div>
+
+      <!-- Stat Cards -->
+      <div class="stats-grid">
+        <div class="stat-card gold">
+          <div class="stat-icon">📚</div>
+          <div class="stat-label">Total Books</div>
+          <div class="stat-value">{{ stats.total_books }}</div>
+          <div class="stat-sub">In the catalog</div>
+        </div>
+        <div class="stat-card green">
+          <div class="stat-icon">✅</div>
+          <div class="stat-label">Available</div>
+          <div class="stat-value">{{ stats.available_books }}</div>
+          <div class="stat-sub">Ready to borrow</div>
+        </div>
+        <div class="stat-card warn">
+          <div class="stat-icon">📤</div>
+          <div class="stat-label">Borrowed</div>
+          <div class="stat-value">{{ stats.borrowed_books }}</div>
+          <div class="stat-sub">Currently out</div>
+        </div>
+        <div class="stat-card blue">
+          <div class="stat-icon">👥</div>
+          <div class="stat-label">Members</div>
+          <div class="stat-value">{{ stats.total_members }}</div>
+          <div class="stat-sub">Registered</div>
+        </div>
+      </div>
+
+      <!-- Main Grid -->
+      <div class="dash-grid">
+        <!-- Recent Books -->
+        <div class="card">
+          <div class="section-head">
+            <h2>Recent Books</h2>
+            <a href="{{ url_for('books') }}" class="btn btn-ghost btn-sm">View All →</a>
+          </div>
+          {% if recent_books %}
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Category</th>
+                  <th>Year</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for book in recent_books %}
+                <tr>
+                  <td style="font-weight:500">{{ book.title }}</td>
+                  <td>{{ book.category_name }}</td>
+                  <td>{{ book.publication_year or '—' }}</td>
+                  <td><span class="badge {{ book.status|lower }}">{{ book.status }}</span></td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% else %}
+          <div class="empty-state">
+            <div class="empty-icon">📭</div>
+            <p>No books yet. <a href="{{ url_for('add_book') }}">Add the first one.</a></p>
+          </div>
+          {% endif %}
+        </div>
+
+        <!-- Right column -->
+        <div style="display:flex;flex-direction:column;gap:18px;">
+          <!-- Quick Actions -->
+          <div class="card card-sm">
+            <div class="section-head" style="margin-bottom:12px">
+              <h2>Quick Actions</h2>
+            </div>
+            <div class="quick-links">
+              <a href="{{ url_for('add_book') }}" class="quick-link">
+                <span class="ql-icon">📖</span> Add Book
+              </a>
+              <a href="{{ url_for('add_member') }}" class="quick-link">
+                <span class="ql-icon">👤</span> Add Member
+              </a>
+              <a href="{{ url_for('books') }}" class="quick-link">
+                <span class="ql-icon">🔍</span> Browse Books
+              </a>
+              <a href="{{ url_for('members') }}" class="quick-link">
+                <span class="ql-icon">📋</span> All Members
+              </a>
+            </div>
+          </div>
+
+          <!-- Recent Members -->
+          <div class="card card-sm">
+            <div class="section-head" style="margin-bottom:12px">
+              <h2>Recent Members</h2>
+              <a href="{{ url_for('members') }}" class="btn btn-ghost btn-sm">All →</a>
+            </div>
+            {% if recent_members %}
+            <ul class="activity-list">
+              {% for m in recent_members %}
+              <li class="activity-item">
+                <div class="activity-dot {% if loop.index % 3 == 0 %}blue{% elif loop.index % 2 == 0 %}green{% else %}gold{% endif %}"></div>
+                <div>
+                  <div class="activity-text">{{ m.member_name }}</div>
+                  <div class="activity-time">{{ m.email }}</div>
+                </div>
+                <span class="badge {{ m.status|lower }}" style="margin-left:auto;flex-shrink:0">{{ m.status }}</span>
+              </li>
+              {% endfor %}
+            </ul>
+            {% else %}
+            <div class="empty-state" style="padding:24px">
+              <div class="empty-icon">👤</div>
+              <p>No members yet.</p>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /page-body -->
+  </div><!-- /main-content -->
+</div><!-- /app-shell -->
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

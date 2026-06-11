@@ -1,0 +1,46 @@
+{% macro sidebar(active='') %}
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">📚</div>
+    <h2>Smart Library</h2>
+    <span>Management System</span>
+  </div>
+
+  <ul class="sidebar-nav">
+    <li class="nav-section-label">Navigation</li>
+    <li>
+      <a href="{{ url_for('dashboard') }}" class="{{ 'active' if active == 'dashboard' }}">
+        <span class="nav-icon">🏠</span> Dashboard
+      </a>
+    </li>
+    <li class="nav-section-label">Library</li>
+    <li>
+      <a href="{{ url_for('books') }}" class="{{ 'active' if active == 'books' }}">
+        <span class="nav-icon">📖</span> Books
+      </a>
+    </li>
+    <li>
+      <a href="{{ url_for('add_book') }}" class="{{ 'active' if active == 'add_book' }}">
+        <span class="nav-icon">➕</span> Add Book
+      </a>
+    </li>
+    <li class="nav-section-label">Members</li>
+    <li>
+      <a href="{{ url_for('members') }}" class="{{ 'active' if active == 'members' }}">
+        <span class="nav-icon">👥</span> Members
+      </a>
+    </li>
+    <li>
+      <a href="{{ url_for('add_member') }}" class="{{ 'active' if active == 'add_member' }}">
+        <span class="nav-icon">➕</span> Add Member
+      </a>
+    </li>
+  </ul>
+
+  <div class="sidebar-footer">
+    <a href="{{ url_for('logout') }}">
+      <span class="nav-icon">🚪</span> Logout
+    </a>
+  </div>
+</aside>
+{% endmacro %}

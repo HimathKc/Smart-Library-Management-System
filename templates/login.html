@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login — Smart Library</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+  </head>
+  <body>
+    <div class="page-center">
+      <div class="login-card">
+        <div class="login-logo">
+          <div class="logo-icon">📚</div>
+          <h1>Smart Library</h1>
+          <p>Sign in to your account to continue</p>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %} {% if
+        messages %} {% for category, message in messages %}
+        <div
+          class="alert alert-{{ 'success' if category == 'success' else 'error' }}"
+        >
+          {{ '✓' if category == 'success' else '✕' }} {{ message }}
+        </div>
+        {% endfor %} {% endif %} {% endwith %}
+
+        <form method="POST" action="{{ url_for('login') }}">
+          <div class="form-group">
+            <label>Username</label>
+            <input
+              type="text"
+              name="username"
+              placeholder="Enter your username"
+              required
+              autofocus
+            />
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input
+              type="password"
+              name="password"
+              placeholder="Enter your password"
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            style="width: 100%; margin-top: 8px; padding: 13px; font-size: 15px"
+          >
+            Sign In →
+          </button>
+        </form>
+
+        <div class="login-divider"></div>
+        <div class="login-footer">
+          Demo credentials: <strong style="color: var(--gold)">admin</strong> /
+          <strong style="color: var(--gold)">admin123</strong>
+        </div>
+      </div>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+  </body>
+</html>

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Dashboard — Smart Library</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+</head>
+<body>
+<div class="page-center">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="logo-icon">📚</div>
+      <h1>User Dashboard</h1>
+      <p>Welcome, {{ session.username }}. You are logged in as a library user.</p>
+    </div>
+    <a href="{{ url_for('books') }}" class="btn btn-primary" style="width:100%;margin-top:8px;padding:13px;font-size:15px;text-align:center">
+      View Books →
+    </a>
+    <div style="text-align:center;margin-top:18px">
+      <a href="{{ url_for('logout') }}" class="btn btn-ghost btn-sm">Logout</a>
+    </div>
+  </div>
+</div>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

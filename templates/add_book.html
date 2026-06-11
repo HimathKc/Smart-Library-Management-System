@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add Book — Smart Library</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+</head>
+<body>
+{% from '_sidebar.html' import sidebar %}
+<div class="app-shell">
+  {{ sidebar('add_book') }}
+  <div class="main-content">
+    <header class="topbar">
+      <span class="topbar-title">Add Book</span>
+      <div class="topbar-right">
+        <button class="theme-toggle" onclick="toggleTheme()">🌙 / ☀️</button>
+        <div class="user-badge"><div class="user-avatar">A</div><span>Admin</span></div>
+      </div>
+    </header>
+
+    <div class="page-body">
+      <div class="page-header">
+        <h1>Add a New Book</h1>
+        <p>Fill in the details to add a book to the catalog.</p>
+      </div>
+
+      <div class="form-card">
+        <form method="POST" action="{{ url_for('add_book') }}">
+          <div class="form-group">
+            <label>Book Title *</label>
+            <input type="text" name="title" placeholder="e.g. The Great Gatsby" required />
+          </div>
+          <div class="form-group">
+            <label>ISBN *</label>
+            <input type="text" name="isbn" placeholder="e.g. 978-3-16-148410-0" required />
+          </div>
+          <div class="form-group">
+            <label>Author Name *</label>
+            <input type="text" name="author" placeholder="e.g. F. Scott Fitzgerald" required />
+          </div>
+          <div class="form-group">
+            <label>Category *</label>
+            <input type="text" name="category" placeholder="e.g. Fiction, Science, History" required />
+          </div>
+          <div class="form-group">
+            <label>Publisher</label>
+            <input type="text" name="publisher" placeholder="e.g. Penguin Books" />
+          </div>
+          <div class="form-group">
+            <label>Publication Year</label>
+            <input type="number" name="publication_year" placeholder="e.g. 2023" min="1000" max="2099" />
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;padding:13px;margin-top:6px;font-size:15px">
+            Add Book →
+          </button>
+        </form>
+        <div style="text-align:center;margin-top:18px">
+          <a href="{{ url_for('books') }}" class="btn btn-ghost btn-sm">← Back to Books</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
